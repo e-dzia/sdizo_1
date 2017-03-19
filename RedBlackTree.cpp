@@ -31,13 +31,15 @@ bool RedBlackTree::addElement(int value, int notUsed) {
     RBTNode* rbt = new RBTNode; //nowy wezel
     rbt->value = value;
     rbt->color = 'R';
-    rbt->up = this->guard;
+    rbt->up = NULL;
+    rbt->left = NULL;
+    rbt->right = NULL;
     RBTNode* p = this->root; //wezel pomocniczy
     if (p == NULL){
         this->root = rbt;
         return true;
     }
-    while (true){
+    else while (true){
         if (rbt->value < p->value){
             if (p->left == NULL){
                 p->left = rbt;
@@ -64,7 +66,7 @@ bool RedBlackTree::deleteElement(int value) {
     RBTNode * toChange;
     if (p != NULL){
         if (p->left == NULL && p->right == NULL){
-            toChange = guard;
+            toChange = NULL;
         }
         else {
             if (p->left == NULL) {
@@ -80,6 +82,8 @@ bool RedBlackTree::deleteElement(int value) {
                 if (tmp->up->left == tmp)//podstawienie odpowiednich wartosci w wezle rodzica tmp
                     tmp->up->left = tmp->right;
                 else tmp->up->right = tmp->right;
+                tmp->left = p->left;
+                tmp->right = p->right;
 
                 toChange = tmp;
 
@@ -90,14 +94,15 @@ bool RedBlackTree::deleteElement(int value) {
         if (p->up->left == p)
             p->up->left = toChange;
         else p->up->right = toChange;
-        if (toChange != guard){
+        if (toChange != NULL){
             toChange->up = p->up;
         }
         delete p;
+        this->fixRBT();
         return true;
         }
 
-    this->fixRBT();
+
     return false;
 }
 
@@ -111,11 +116,11 @@ RBTNode * RedBlackTree::nextValue(RBTNode * p){
 
 RBTNode* RedBlackTree::findEl(int value){
     RBTNode * p = this->root;
-    while (true){
+    while (p != NULL){
         if (value == p->value){
             return p;
         }
-        else if (value > this->root->value){
+        else if (value > p->value){
             p = p->right;
         }
         else p = p->left;
@@ -123,7 +128,7 @@ RBTNode* RedBlackTree::findEl(int value){
 }
 
 int RedBlackTree::findElement(int value) {
-    if (findEl(value)== NULL || findEl(value) == guard) return -1;
+    if (findEl(value)== NULL /*|| findEl(value) == guard*/) return -1;
     else return 1;
 }
 
@@ -177,7 +182,7 @@ void RedBlackTree::menu() {
             else cout << "Nie znaleziono.\n";
             break;
         case 5:
-            cout << this << endl;
+            cout << *this << endl;
             break;
         case 6:
             return;
@@ -220,6 +225,6 @@ void RedBlackTree::printRBT(string sp, string sn, RBTNode *v, ostream &os)const 
 }
 
 bool RedBlackTree::fixRBT() {
-
+    //TODO: Napraw RBT!
     return false;
 }

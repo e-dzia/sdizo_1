@@ -16,6 +16,9 @@ using namespace std;
 int main() {
     int n = 10; //liczba elementow
     createFile(n); //wylosowanie liczb w pliku tekstowym
+    //RedBlackTree rbt;
+    //rbt.addElement(5,0);
+    //cout << rbt << endl;
     mainMenu();
 
     return 0;
