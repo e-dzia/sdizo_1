@@ -144,8 +144,8 @@ RedBlackTree::RedBlackTree() {
 }
 
 RedBlackTree::~RedBlackTree() {
-    //TODO: przejdz po wszystkich wezłach i je pousuwaj
-
+    deleteTree(this->root);
+    this->root = NULL;
 }
 
 void RedBlackTree::menu() {
@@ -227,4 +227,13 @@ void RedBlackTree::printRBT(string sp, string sn, RBTNode *v, ostream &os)const 
 bool RedBlackTree::fixRBT() {
     //TODO: Napraw RBT!
     return false;
+}
+
+bool RedBlackTree::deleteTree(RBTNode *pNode) {
+    if (pNode->right != NULL)
+        deleteTree(pNode->right);
+    if (pNode->left != NULL)
+        deleteTree(pNode->left);
+    delete pNode;
+    return true;
 }

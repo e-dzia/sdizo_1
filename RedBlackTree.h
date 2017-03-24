@@ -46,4 +46,6 @@ public:
     RBTNode *nextValue(RBTNode *p);
 
     void printRBT(string sp, string sn, RBTNode *v, ostream &os)const;
+
+    bool deleteTree(RBTNode *pNode);
 };
