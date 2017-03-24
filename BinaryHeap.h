@@ -32,6 +32,8 @@ public:
 
     friend ostream & operator<<(ostream & os , const BinaryHeap & a);
 
+    void printBH(string sp, string sn, int v, ostream &os)const;
+
     void menu();
 
 };

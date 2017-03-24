@@ -4,6 +4,7 @@
 
 #include "BinaryHeap.h"
 #include <cmath>
+#include <cstdlib>
 
 int BinaryHeap::getSize() const{
     return array.getSize();
@@ -38,31 +39,7 @@ int BinaryHeap::findElement(int value) {
     return array.findElement(value);
 }
 
-ostream &operator<<(ostream &os, const BinaryHeap &a) {
-    //TODO: wyswietlanie drzewa binarnego lepiej
-    os << a.array;
-    os << endl;
-    int m = a.getSize();
-    int n = log2(m);
-    for (int j = 1; j < m; j*=2){
-        for (int i = 0; i < n; i++){
-            os << '\t';
-        }
-        for (int i = 0; i < j; i++){
-            if (j-1+i < m){
-                os << a.array[j-1+i] << '\t';
-                for (int k = 0; k < n; k++){
-                    os << '\t';
-                }
-            }
 
-        }
-        n--;
-
-        os << endl;
-    }
-    return os;
-}
 
 BinaryHeap::BinaryHeap() {
     Array array;
@@ -73,8 +50,6 @@ BinaryHeap::~BinaryHeap() {
 }
 
 bool BinaryHeap::fixBinaryHeap(int i) {
-   // this->fixBinaryHeapUp();
-   // this->fixBinaryHeapDown();
     int largest;
     int left = 2*i + 1;
     int right = 2*i + 2;
@@ -97,7 +72,6 @@ bool BinaryHeap::fixBinaryHeap(int i) {
 }
 
 bool BinaryHeap::fixBinaryHeapUp(int i) {
-    cout << "No elo, naprawa w gore " << this->array << endl;
     int n = this->getSize()-1;
     int v = array[n];
     //int i = n; //pozycja wstawianego elementu
@@ -112,23 +86,6 @@ bool BinaryHeap::fixBinaryHeapUp(int i) {
 }
 
 bool BinaryHeap::fixBinaryHeapDown(int i) {
-    /*
-    * Lista kroków:
-K01: 	Jeśli n = 0, to zakończ 	; kopiec jest pusty
-K02: 	n ← n - 1 	; kopiec będzie zawierał o 1 element mniej
-K03: 	v ← T[n] 	; w v zapamiętujemy ostatni element kopca
-K04: 	i ← 0 	; przeszukiwanie drzewa rozpoczynamy od korzenia
-K05: 	j ← 1 	; j wskazuje lewego syna
-K06: 	Dopóki j < n: wykonuj K07...K11 	; idziemy w dół kopca
-K07: 	    Jeśli (j + 1 < n) (T[j + 1] > T[j]), to j ← j + 1 	; szukamy większego syna
-K08: 	    Jeśli v ≥ T[j], to Idź do K12 	; jeśli warunek kopca spełniony, wychodzimy z pętli
-K09: 	    T[i] ← T[j] 	; inaczej kopiujemy większego syna do ojca
-K10: 	    i ← j 	; przechodzimy na pozycję większego syna
-K11: 	    j ← 2j + 1 	; j wskazuje lewego syna
-K12 	T[i] ← v 	; umieszczamy v w kopcu
-K13: 	Zakończ
-    */
-    cout << "No elo, naprawa w dol " << this->array << endl;
     int n = this->getSize();
     int v = array[n]; //ostatni element
     //int i = 0;
@@ -141,10 +98,8 @@ K13: 	Zakończ
         array[i] = array[j];
         i = j;
         j = 2*i+1;
-        cout << "No elo, koniec petli naprawy w dol " << this->array << endl;
     }
     array[i] = v;
-    cout << "No elo, koniec naprawy w dol " << this->array << endl;
     return true;
 }
 
@@ -201,4 +156,33 @@ void BinaryHeap::menu() {
             break;
     }
     this->menu();
+}
+
+void BinaryHeap::printBH(string sp, string sn, int v, ostream &os) const {
+    string s;
+    string cr = "  ", cl= "  ", cp = "  ";
+    cr[0] = 218; cr[1] = 196;
+    cl[0] = 192; cl[1] = 196;
+    cp[0] = 179;
+
+    if(v < this->getSize())
+    {
+        s = sp;
+        if(sn == cr) s[s.length() - 2] = ' ';
+        printBH(s + cp, cr, 2 * v + 2, os);
+
+        s = s.substr(0,sp.length()-2);
+
+        cout << s << sn << this->array[v] << endl;
+
+        s = sp;
+        if(sn == cl) s[s.length() - 2] = ' ';
+        printBH(s + cp, cl, 2 * v + 1, os);
+    }
+}
+
+ostream &operator<<(ostream &os, const BinaryHeap &a) {
+    //TODO: wyswietlanie drzewa binarnego lepiej
+    a.printBH("","",0, os);
+    return os;
 }
