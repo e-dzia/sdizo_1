@@ -120,7 +120,7 @@ void BinaryHeap::menu() {
             "6. Wyjdz do glownego menu.\n"
             "Prosze wpisac odpowiednia liczbe.";
     cin.clear();
-    int chosen = 5;
+    int chosen = 6;
     cin >> chosen;
     switch(chosen){
         case 1:
@@ -182,7 +182,6 @@ void BinaryHeap::printBH(string sp, string sn, int v, ostream &os) const {
 }
 
 ostream &operator<<(ostream &os, const BinaryHeap &a) {
-    //TODO: wyswietlanie drzewa binarnego lepiej
     a.printBH("","",0, os);
     return os;
 }

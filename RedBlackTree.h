@@ -48,4 +48,12 @@ public:
     void printRBT(string sp, string sn, RBTNode *v, ostream &os)const;
 
     bool deleteTree(RBTNode *pNode);
+
+    void fixRBT_A(RBTNode *pNode);
+
+    void rot_R(RBTNode *pNode);
+
+    void rot_L(RBTNode *pNode);
+
+    void fixRBT_D(RBTNode *pNode);
 };
