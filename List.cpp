@@ -185,3 +185,7 @@ void List::menu() {
     }
     this->menu();
 }
+
+void List::print(std::ostream &str) const {
+    str << *this;
+}

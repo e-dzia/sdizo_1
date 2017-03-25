@@ -32,6 +32,8 @@ public:
     int & operator[](int n) const;
 
     void menu();
+
+    void print(std::ostream &str) const override;
 };
 
 

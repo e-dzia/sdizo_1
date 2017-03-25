@@ -46,6 +46,8 @@ public:
     friend ostream & operator<<(ostream & os , const List & a);
 
     void menu();
+
+    void print(std::ostream &str) const override;
 };
 
 #endif //SDIZO_1_LIST_H

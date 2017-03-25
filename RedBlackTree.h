@@ -56,4 +56,6 @@ public:
     void rot_L(RBTNode *pNode);
 
     void fixRBT_D(RBTNode *pNode);
+
+    void print(std::ostream &str) const override;
 };

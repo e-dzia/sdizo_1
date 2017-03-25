@@ -185,3 +185,7 @@ ostream &operator<<(ostream &os, const BinaryHeap &a) {
     a.printBH("","",0, os);
     return os;
 }
+
+void BinaryHeap::print(std::ostream &str) const {
+    str << *this;
+}

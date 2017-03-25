@@ -36,4 +36,6 @@ public:
 
     void menu();
 
+    void print(std::ostream &str) const;
+
 };

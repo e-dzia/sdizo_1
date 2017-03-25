@@ -400,4 +400,8 @@ void RedBlackTree::rot_L(RBTNode *pNode) {
     }
 }
 
+void RedBlackTree::print(std::ostream &str) const {
+    str << *this;
+}
+
 

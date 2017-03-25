@@ -1,6 +1,7 @@
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
+#include <chrono>
 
 #include "Array.h"
 #include "List.h"
@@ -14,13 +15,61 @@ void mainMenu();
 using namespace std;
 
 int main() {
-    int n = 10; //liczba elementow
-    createFile(n); //wylosowanie liczb w pliku tekstowym
-    //RedBlackTree rbt;
-    //rbt.loadFile("numbers.txt");
-    //cout << rbt << endl;
+    ofstream fout;
+    fout.open("results_add_100.txt", ios::out);
+    int n = 10000;
+    createFile(n);
+    chrono::time_point<chrono::system_clock> start, end;
+    DataStructure * ds;
+    std::chrono::duration<double> addTime;
 
-    mainMenu();
+    //mainMenu();
+
+    fout << "ARRAY:\n";
+    for (int i = 0; i < 100; i++){
+        ds = new Array;
+        start = chrono::system_clock::now();
+        ds->loadFile("numbers.txt");
+        end = chrono::system_clock::now();
+        addTime = end - start;
+        fout << addTime.count() << endl;
+        delete ds;
+    }
+
+    fout << "\n\nLIST:\n";
+    for (int i = 0; i < 100; i++){
+        ds = new List;
+        start = chrono::system_clock::now();
+        ds->loadFile("numbers.txt");
+        end = chrono::system_clock::now();
+        addTime = end - start;
+        fout << addTime.count() << endl;
+        delete ds;
+    }
+
+
+    fout << "\n\nBINARY HEAP:\n";
+    for (int i = 0; i < 100; i++){
+        ds = new BinaryHeap;
+        start = chrono::system_clock::now();
+        ds->loadFile("numbers.txt");
+        end = chrono::system_clock::now();
+        addTime = end - start;
+        fout << addTime.count() << endl;
+        delete ds;
+    }
+
+    fout << "\n\nRED BLACK TREE:\n";
+    for (int i = 0; i < 100; i++){
+        ds = new RedBlackTree;
+        start = chrono::system_clock::now();
+        ds->loadFile("numbers.txt");
+        end = chrono::system_clock::now();
+        addTime = end - start;
+        fout << addTime.count() << endl;
+        delete ds;
+    }
+
 
     return 0;
 }

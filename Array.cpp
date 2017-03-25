@@ -5,6 +5,7 @@
 #include "Array.h"
 #include <iostream>
 #include <fstream>
+#include <cstring>
 
 
 int Array::getSize()const {
@@ -25,25 +26,29 @@ bool Array::addElement(int value, int position) {
     int * newArray = new int [this->getSize() +1]; //tworzy nowa tabele wieksza o 1 od obecnej
     if (position == 0){ //poczatek tabeli
         newArray[0] = value; //do miejsca na poczatku wpisuje (value)
-        for (int i = 1; i < this->getSize() + 1; i++) {
+        /*for (int i = 1; i < this->getSize() + 1; i++) {
             newArray[i] = this->array[i - 1]; //do pozostalych miejsc wpisuje pozostałe wartosi po kolei
-        }
+        }*/
+        if( this->array != NULL ) memcpy(newArray+1, this->array, this->getSize()*sizeof(int));
     }
     else if (position >= this->getSize()){ //koniec tabeli
-        for (int i = 0; i < this->getSize(); i++){
+        /*for (int i = 0; i < this->getSize(); i++){
             newArray[i] = this->array[i]; //przepisuje elementy tablicy do nowej
-        }
+        }*/
+        if( this->array != NULL ) memcpy(newArray, this->array, this->getSize()*sizeof(int));
         newArray[this->getSize()] = value; // dopisuje na koniec listy wartosc (value)
     }
     else {//inne miejsce tabeli
         int i = 0;
-        for (; i < position; i++){
+        /*for (; i < position; i++){
             newArray[i] = this->array[i]; //do miejsca (position) przepisuje elementy
-        }
-        newArray[i++] = value; //w miejsce (position) wpisuje wartosc (value)
-        for (; i < this->getSize()+1; i++){
+        }*/
+        if( this->array != NULL ) memcpy(newArray, this->array, position*sizeof(int));
+        newArray[position] = value; //w miejsce (position) wpisuje wartosc (value)
+        if( this->array != NULL ) memcpy(newArray + position+1, this->array+position,(this->getSize()-position)*sizeof(int));
+        /*for (; i < this->getSize()+1; i++){
             newArray[i] = this->array[i-1]; //do reszty tablicy wpisuje dalsze elementy starej tablicy
-        }
+        }*/
     }
     this->size++; //zwieksza (size)
     delete [] this->array; //usuwa stara tablice
@@ -169,4 +174,8 @@ void Array::menu() {
             break;
     }
     this->menu();
+}
+
+void Array::print(std::ostream &str) const {
+    str << *this;
 }
