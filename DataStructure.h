@@ -20,7 +20,15 @@ public:
 
     virtual void menu()= 0;
 
-  //  virtual friend ostream & operator<<(ostream & os , const DataStructure & a) = 0;
+    virtual void print(std::ostream& str) const = 0;
+
+    friend std::ostream& operator<<(std::ostream& str, DataStructure const& data)
+    {
+        data.print(str);
+        return str;
+    }
+
+    //virtual friend ostream & operator<<(ostream & os , const DataStructure & a) = 0;
 
 };
 
