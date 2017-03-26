@@ -4,6 +4,25 @@
 
 #include "List.h"
 
+List::List() {
+    this->head = NULL;
+    //cout << "Nowa lista " << this->head << endl;
+}
+
+List::~List() {
+    //cout << "Usuwam liste " << this->head << endl;
+    ElemList * p = this->head;
+    ElemList * next;
+    while (p != NULL){
+        next = p->next;
+        delete p;
+        p = next;
+
+    }
+    delete next;
+    delete p;
+}
+
 bool List::loadFile(string name) {
     ifstream fin;
     fin.open(name.c_str(), ios::in);
@@ -120,20 +139,6 @@ int List::findElement(int value) {
         position++;
     }
     return -1;
-}
-
-List::~List() {
-    ElemList * p = this->head;
-    ElemList * next;
-    while (p != NULL){
-        next = p->next;
-        delete p;
-        p = next;
-    }
-}
-
-List::List() {
-    this->head = NULL;
 }
 
 void List::menu() {

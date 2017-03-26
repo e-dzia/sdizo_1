@@ -7,19 +7,26 @@
 #include <fstream>
 #include <cstring>
 
+Array::Array() {
+    this->size = 0;
+    this->array = new int[this->size];
+    //cout << "Nowa tablica " << this->array << endl;
+}
+
+Array::Array(const Array& a){
+    this->size = a.size;
+    this->array = new int[this->size];
+    memcpy(this->array,a.array,this->size*sizeof(int));
+    //cout << "Kopiowanie tablicy " << this->size << " " << this->array << endl;
+}
+
+Array::~Array() {
+    //cout << "Usuwam tablice " << this->size << " " << this->array << endl;
+    delete [] array;
+}
 
 int Array::getSize()const {
     return this->size;
-}
-
-Array::Array() {
-    this->size = 0;
-    this->array = new int[Array::size];
-}
-
-
-Array::~Array() {
-    delete [] array;
 }
 
 bool Array::addElement(int value, int position) {
@@ -56,7 +63,6 @@ bool Array::addElement(int value, int position) {
     return true;
 }
 
-
 bool Array::deleteElement(int position) {
     int * newArray = new int [this->getSize() -1]; //tworzy nowa tabele mniejsza o 1 od obecnej
     this->size--;
@@ -84,7 +90,6 @@ bool Array::deleteElement(int position) {
     return true;
 }
 
-
 int Array::findElement(int value) {
     for (int i = 0; i < this->getSize(); i++){
         if (this->array[i] == value) return i;
@@ -92,14 +97,12 @@ int Array::findElement(int value) {
     return -1;
 }
 
-
 ostream & operator<< ( ostream & os , const Array & a ){
     for (int i = 0; i < a.getSize(); i++){
         os << a.array[i] << " ";
     }
     return os;
 }
-
 
 bool Array::loadFile(string name) {
     ifstream fin;
@@ -124,6 +127,10 @@ int& Array::operator[](int n) {
 
 int &Array::operator[](int n) const {
     return array[n];
+}
+
+void Array::print(std::ostream &str) const {
+    str << *this;
 }
 
 void Array::menu() {
@@ -174,8 +181,4 @@ void Array::menu() {
             break;
     }
     this->menu();
-}
-
-void Array::print(std::ostream &str) const {
-    str << *this;
 }

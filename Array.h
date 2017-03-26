@@ -17,6 +17,7 @@ private:
     int * array;
 public:
     Array(); //konstruktor domyślny
+    Array(const Array &a);
     ~Array(); //destruktor
 
     int getSize()const;

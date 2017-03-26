@@ -6,6 +6,17 @@
 #include <cmath>
 #include <cstdlib>
 
+
+BinaryHeap::BinaryHeap() {
+    //Array array;
+    //cout << "Nowe BH " << &this->array << endl;
+}
+
+BinaryHeap::~BinaryHeap() {
+    //cout << "Usuwam BH " << &this->array << endl;
+    //array.~Array();
+}
+
 int BinaryHeap::getSize() const{
     return array.getSize();
 }
@@ -37,16 +48,6 @@ bool BinaryHeap::deleteElement(int value) {
 
 int BinaryHeap::findElement(int value) {
     return array.findElement(value);
-}
-
-
-
-BinaryHeap::BinaryHeap() {
-    Array array;
-}
-
-BinaryHeap::~BinaryHeap() {
-    array.~Array();
 }
 
 bool BinaryHeap::fixBinaryHeap(int i) {
@@ -189,3 +190,4 @@ ostream &operator<<(ostream &os, const BinaryHeap &a) {
 void BinaryHeap::print(std::ostream &str) const {
     str << *this;
 }
+

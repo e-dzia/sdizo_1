@@ -139,13 +139,14 @@ RedBlackTree::RedBlackTree() {
     g->color = 'B';
     this->guard = g;
     this->root = this->guard;
+    //cout << "Nowe RBT " << this->root << endl;
 }
 
 RedBlackTree::~RedBlackTree() {
+    //cout << "Usuwam RBT " << this->root << endl;
     deleteTree(this->root);
-    this->root = NULL;
+    delete this->root;
     delete this->guard;
-
 }
 
 void RedBlackTree::menu() {
@@ -403,5 +404,7 @@ void RedBlackTree::rot_L(RBTNode *pNode) {
 void RedBlackTree::print(std::ostream &str) const {
     str << *this;
 }
+
+
 
 
