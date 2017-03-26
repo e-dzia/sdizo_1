@@ -27,7 +27,7 @@ public:
 
     bool loadFile(string name);
     bool addElement(int value, int notUsed);
-    bool deleteElement(int position);
+    bool deleteElement(int value);
     int findElement(int value);
 
     friend ostream & operator<<(ostream & os , const BinaryHeap & a);

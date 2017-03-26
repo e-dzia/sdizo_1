@@ -9,67 +9,160 @@
 #include "RedBlackTree.h"
 
 bool createFile(int n);
-
 void mainMenu();
 
 using namespace std;
 
 int main() {
-    ofstream fout;
-    fout.open("results_add_100.txt", ios::out);
-    int n = 10000;
-    createFile(n);
-    chrono::time_point<chrono::system_clock> start, end;
-    DataStructure * ds;
+    ofstream foutArray;
+    foutArray.open("results_array.txt", ios::out);
+    ofstream foutList;
+    foutList.open("results_lisrt.txt", ios::out);
+    ofstream foutBH;
+    foutBH.open("results_bh.txt", ios::out);
+    ofstream foutRBT;
+    foutRBT.open("results_rbt.txt", ios::out);
+
+    ifstream fin;
+    fin.open("numbers2.txt", ios::out);
+    Array a;
+    int size;
+    fin >> size;
+    for (int i = 0; i < 1000; i++){
+        fin >> a[i];
+    }
+    //cout << "Koniec\n";
+
+    int n = 4000;
+
+    std::chrono::time_point<chrono::system_clock> start, end;
     std::chrono::duration<double> addTime;
+    DataStructure * ds;
 
     //mainMenu();
 
-    fout << "ARRAY:\n";
-    for (int i = 0; i < 100; i++){
+    for (int i = 0; i < 10; i++){
+        createFile(n);
+        //##########################################TABLICA####################################################################
         ds = new Array;
         start = chrono::system_clock::now();
         ds->loadFile("numbers.txt");
         end = chrono::system_clock::now();
         addTime = end - start;
-        fout << addTime.count() << endl;
-        delete ds;
-    }
+        foutArray << addTime.count() << " "; //czas dodawania 4000 elementów
 
-    fout << "\n\nLIST:\n";
-    for (int i = 0; i < 100; i++){
+        start = chrono::system_clock::now();
+        for(int j = 0; j < 100; j++){
+            ds->findElement(a[j]);
+        }
+        end = chrono::system_clock::now();
+        addTime = end - start;
+        foutArray << addTime.count() << " "; //czas szukania 100 elementów
+
+        start = chrono::system_clock::now();
+        for(int j = 0; j < 100; j++){
+            ds->deleteElement(j+10);
+        }
+        end = chrono::system_clock::now();
+        addTime = end - start;
+        foutArray << addTime.count() << " "; //czas usuwania 100 elementów
+
+        foutArray << endl;
+        delete ds;
+
+        //cout << "Lista\n";
+
+        //##########################################LISTA###################################################################
         ds = new List;
         start = chrono::system_clock::now();
         ds->loadFile("numbers.txt");
         end = chrono::system_clock::now();
         addTime = end - start;
-        fout << addTime.count() << endl;
+        foutList << addTime.count(); //czas dodawania 4000 elementów
+
+        /*start = chrono::system_clock::now();
+        for(int j = 0; j < 100; j++){
+            ds->findElement(a[j]);
+        }
+        end = chrono::system_clock::now();
+        addTime = end - start;
+        foutArray << addTime.count() << " "; //czas szukania 100 elementów
+
+        start = chrono::system_clock::now();
+        for(int j = 0; j < 100; j++){
+            ds->deleteElement(a[j+100]);
+        }
+        end = chrono::system_clock::now();
+        addTime = end - start;
+        foutArray << addTime.count() << " "; //czas usuwania 100 elementów
+*/
+        foutList << endl;
         delete ds;
-    }
 
+        //cout << "Kopiec\n";
 
-    fout << "\n\nBINARY HEAP:\n";
-    for (int i = 0; i < 100; i++){
+        //##########################################KOPIEC####################################################################
         ds = new BinaryHeap;
         start = chrono::system_clock::now();
         ds->loadFile("numbers.txt");
         end = chrono::system_clock::now();
         addTime = end - start;
-        fout << addTime.count() << endl;
-        delete ds;
-    }
+        foutBH << addTime.count();
 
-    fout << "\n\nRED BLACK TREE:\n";
-    for (int i = 0; i < 100; i++){
+        /*start = chrono::system_clock::now();
+        for(int j = 0; j < 100; j++){
+            ds->findElement(a[j]);
+        }
+        end = chrono::system_clock::now();
+        addTime = end - start;
+        foutArray << addTime.count() << " "; //czas szukania 100 elementów
+
+        start = chrono::system_clock::now();
+        for(int j = 0; j < 100; j++){
+            ds->deleteElement(a[j+100]);
+        }
+        end = chrono::system_clock::now();
+        addTime = end - start;
+        foutArray << addTime.count() << " "; //czas usuwania 100 elementów
+*/
+        foutBH << endl;
+        delete ds;
+
+        //cout << "Drzewo\n";
+
+        //##########################################DRZEWO_RBT####################################################################
         ds = new RedBlackTree;
         start = chrono::system_clock::now();
         ds->loadFile("numbers.txt");
         end = chrono::system_clock::now();
         addTime = end - start;
-        fout << addTime.count() << endl;
+        foutRBT << addTime.count();
+
+        /*start = chrono::system_clock::now();
+        for(int j = 0; j < 100; j++){
+            ds->findElement(a[j]);
+        }
+        end = chrono::system_clock::now();
+        addTime = end - start;
+        foutArray << addTime.count() << " "; //czas szukania 100 elementów
+
+        start = chrono::system_clock::now();
+        for(int j = 0; j < 100; j++){
+            ds->deleteElement(a[j+100]);
+        }
+        end = chrono::system_clock::now();
+        addTime = end - start;
+        foutArray << addTime.count() << " "; //czas usuwania 100 elementów
+*/
+        foutRBT << endl;
         delete ds;
     }
 
+    foutArray.close();
+    foutList.close();
+    foutBH.close();
+    foutRBT.close();
+    fin.close();
 
     return 0;
 }
@@ -125,7 +218,7 @@ bool createFile(int n) {
     if (fout.is_open()){
         fout << n << endl;
         for (int i = 0; i < n; i++){
-            int element = rand()%100;
+            int element = rand()%10000;
             fout << element << endl;
         }
         fout.close();

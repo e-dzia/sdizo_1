@@ -32,7 +32,7 @@ public:
 
     bool loadFile(string name);
     bool addElement(int value, int position) ;
-    bool deleteElement(int position);
+    bool deleteElement(int value);
     int findElement(int value);
 
     void menu();
