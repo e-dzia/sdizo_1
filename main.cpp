@@ -32,25 +32,27 @@ int main() {
     Array a;
 
 
-    int add = 1000;
-    int search = 1000;
-    int del = 1000;
+
+
+    int add = 100;
+    int search = 100;
+    int del = 100;
     int n = 1000;
 
-    //mainMenu();
+    mainMenu();
 
     createFile(n);
    // ds = new BinaryHeap;
     //ds->loadFile("numbers.txt");
+    ds = new RedBlackTree;
+    ds->loadFile("numbers.txt");
 
 
     for (int i = 0; i < 100; i++){
         cout << i << endl;
         createFile(n);
-        ds = new RedBlackTree;
-        ds->loadFile("numbers.txt");
 
-        //cout << "Dzialam\n";
+        cout << "Dzialam\n";
         ifstream fin;
         fin.open("numbers.txt", ios::out);
         a.deleteAll();
@@ -61,74 +63,50 @@ int main() {
             fin >> element;
             a.addElement(element,0);
         }
+        //cout << a << endl;
+        //cout << a[0] << endl;
         fin.close();
-        //cout << "Wciaz\n";
+        cout << "Wciaz\n";
+        //cout << *ds;
 
-        //##########################################TABLICA####################################################################
+        //cout << "Elo1\n";
         start = chrono::high_resolution_clock::now();
         for(int j = 0; j < add; j++){
+            //cout << "Dodaje " << a[a.getSize()-j*2-1] << endl;
             ds->addElement(a[j],0);
         }
         end = chrono::high_resolution_clock::now();
+        //cout << "Elo2\n";
         addTime = end - start;
         foutArray << addTime.count() << " "; //czas dodawania
 
+        cout << "Elo3\n";
         start = chrono::high_resolution_clock::now();
         for(int j = 0; j < search; j++){
-            ds->findElement(a[a.getSize()-j]);
+            ds->findElement(a[a.getSize()-j-1]);
         }
         end = chrono::high_resolution_clock::now();
+        //cout << "Elo4\n";
         addTime = end - start;
         foutArray << addTime.count() << " "; //czas szukania
 
+        cout << "Elo5\n";
         start = chrono::high_resolution_clock::now();
         for(int j = 0; j < del; j++){
+            //cout << "Chce usunac " << a[j+100] << " ";
             ds->deleteElement(a[j+100]);
+            //cout << *ds;
         }
         end = chrono::high_resolution_clock::now();
+        //cout << "Elo6\n";
         addTime = end - start;
         foutArray << addTime.count() << " "; //czas usuwania
 
+        //cout << "Elo7\n";
         foutArray << endl;
-        delete ds;
-
-/*
-        cout << "Lista\n";
-
-        //##########################################LISTA###################################################################
-        ds = new List;
-        start = chrono::high_resolution_clock::now();
-        ds->loadFile("numbers.txt");
-        end = chrono::high_resolution_clock::now();
-        addTime = end - start;
-        foutList << addTime.count() << " "; //czas dodawania 4000 elementów
-
-        //if (i==0) cout << "List####################################################################\n" << *ds << endl;
-
-        start = chrono::high_resolution_clock::now();
-        for(int j = 0; j < search; j++){
-            //cout << "Szukam " << a[j] << " ";
-            ds->findElement(a[a.getSize()-j]);
-        }
-        //cout << endl << endl;
-        end = chrono::high_resolution_clock::now();
-        addTime = end - start;
-        foutList << addTime.count() << " "; //czas szukania 100 elementów
-
-        start = chrono::high_resolution_clock::now();
-        for(int j = 0; j < del; j++){
-            //cout << "Usuwam " << a[j+100] << " ";
-            ds->deleteElement(a[j+100]);
-        }
-        end = chrono::high_resolution_clock::now();
-        //cout << endl << endl;
-        addTime = end - start;
-        foutList << addTime.count() << " "; //czas usuwania 100 elementów
-
-        foutList << endl;
-        delete ds;
-*/
-
+        cout << "Elo8\n";
+        //delete ds;
+        cout << "End\n";
     }
 
     foutArray.close();
