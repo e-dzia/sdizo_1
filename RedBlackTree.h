@@ -30,16 +30,14 @@ public:
 
     int getSize() const;
 
-    bool loadFile(string name);
-    bool addElement(int value, int position) ;
-    bool deleteElement(int value);
+    void loadFile(string name);
+    void addElement(int value, int position) ;
+    void deleteElement(int value);
     int findElement(int value);
 
     void menu();
 
     friend ostream & operator<<(ostream & os , const RedBlackTree & a);
-
-    bool fixRBT();
 
     RBTNode *findEl(int value);
 
@@ -47,7 +45,7 @@ public:
 
     void printRBT(string sp, string sn, RBTNode *v, ostream &os)const;
 
-    bool deleteTree(RBTNode *pNode);
+    void deleteTree(RBTNode *pNode);
 
     void fixRBT_A(RBTNode *pNode);
 
@@ -55,7 +53,9 @@ public:
 
     void rot_L(RBTNode *pNode);
 
-    void fixRBT_D(RBTNode *pNode);
+    void fixRBT_D(RBTNode *pNode, RBTNode * toChange);
 
     void print(std::ostream &str) const override;
+
+    int getElement(int position) override;
 };

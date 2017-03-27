@@ -17,14 +17,13 @@ private:
     int * array;
 public:
     Array(); //konstruktor domyślny
-    Array(const Array &a);
     ~Array(); //destruktor
 
     int getSize()const;
 
-    bool loadFile(string name);
-    bool addElement(int value, int position); //wartosc i pozycja, na ktora trzeba ja wstawic
-    bool deleteElement(int position); //podana pozycja elementu do usuniecia
+    void loadFile(string name);
+    void addElement(int value, int position); //wartosc i pozycja, na ktora trzeba ja wstawic
+    void deleteElement(int position); //podana pozycja elementu do usuniecia
     int findElement(int value);
 
     friend ostream & operator<<(ostream & os , const Array & a);
@@ -35,6 +34,10 @@ public:
     void menu();
 
     void print(std::ostream &str) const override;
+
+    bool deleteAll();
+
+    int getElement(int position) override;
 };
 
 

@@ -21,36 +21,34 @@ int BinaryHeap::getSize() const{
     return array.getSize();
 }
 
-bool BinaryHeap::loadFile(string name) {
+void BinaryHeap::loadFile(string name) {
     array.loadFile(name);
     for(int i = this->getSize()-1; i >= 0; i--)
         this->fixBinaryHeap(i);
-    return true;
 }
 
-bool BinaryHeap::addElement(int value, int notUsed) {
+void BinaryHeap::addElement(int value, int notUsed) {
     array.addElement(value,this->getSize());
     for(int i = this->getSize()-1; i >= 0; i--)
         this->fixBinaryHeap(i);
-    return true;
 }
 
-bool BinaryHeap::deleteElement(int value) {
-    if (array.findElement(value) == -1) return false;
-    int tmp = array[array.findElement(value)]; //wartosc elementu
-    array[array.findElement(value)] = array[array.getSize()-1];
+void BinaryHeap::deleteElement(int value) {
+    int position = array.findElement(value);
+    if (position == -1) return;
+    int tmp = array[position]; //wartosc elementu
+    array[position] = array[array.getSize()-1];
     array[array.getSize()-1] = tmp;
     array.deleteElement(array.getSize());
     for(int i = this->getSize()-1; i >= 0; i--)
         this->fixBinaryHeap(i);
-    return true;
 }
 
 int BinaryHeap::findElement(int value) {
     return array.findElement(value);
 }
 
-bool BinaryHeap::fixBinaryHeap(int i) {
+void BinaryHeap::fixBinaryHeap(int i) {
     int largest;
     int left = 2*i + 1;
     int right = 2*i + 2;
@@ -69,10 +67,9 @@ bool BinaryHeap::fixBinaryHeap(int i) {
         array[largest] = tmp;
         fixBinaryHeap(largest);
     }
-    return false;
 }
 
-bool BinaryHeap::fixBinaryHeapUp(int i) {
+void BinaryHeap::fixBinaryHeapUp(int i) {
     int n = this->getSize()-1;
     int v = array[n];
     //int i = n; //pozycja wstawianego elementu
@@ -83,10 +80,9 @@ bool BinaryHeap::fixBinaryHeapUp(int i) {
         j = (i-1)/2;
     }
     array[i] = v;
-    return false;
 }
 
-bool BinaryHeap::fixBinaryHeapDown(int i) {
+void BinaryHeap::fixBinaryHeapDown(int i) {
     int n = this->getSize();
     int v = array[n]; //ostatni element
     //int i = 0;
@@ -101,14 +97,12 @@ bool BinaryHeap::fixBinaryHeapDown(int i) {
         j = 2*i+1;
     }
     array[i] = v;
-    return true;
 }
 
-bool BinaryHeap::createBH() { //algorytm Floyda
+void BinaryHeap::createBH() { //algorytm Floyda
     for (int i = (this->getSize()-2)/2; i>=0; i++){
         this->fixBinaryHeapDown(i);
     }
-    return false;
 }
 
 void BinaryHeap::menu() {
@@ -189,5 +183,9 @@ ostream &operator<<(ostream &os, const BinaryHeap &a) {
 
 void BinaryHeap::print(std::ostream &str) const {
     str << *this;
+}
+
+int BinaryHeap::getElement(int position) {
+    return -1;
 }
 

@@ -32,16 +32,19 @@ struct ElemList{
 class List: public DataStructure{
 private:
     ElemList * head;
+    int size;
 public:
     List(); //konstruktor domyślny
     ~List(); //destruktor
 
     int getSize() const;
 
-    bool loadFile(string name);
-    bool addElement(int afterValue, int value); //za afterValue trzeba wstawic value
-    bool deleteElement(int value); //podana wartosc do usuniecia
+    void loadFile(string name);
+    void addElement(int afterValue, int value); //za afterValue trzeba wstawic value
+    void deleteElement(int value); //podana wartosc do usuniecia
     int findElement(int value);
+
+    int getElement(int position);
 
     friend ostream & operator<<(ostream & os , const List & a);
 

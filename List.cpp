@@ -6,6 +6,7 @@
 
 List::List() {
     this->head = NULL;
+    size = 0;
     //cout << "Nowa lista " << this->head << endl;
 }
 
@@ -23,7 +24,7 @@ List::~List() {
     delete p;
 }
 
-bool List::loadFile(string name) {
+void List::loadFile(string name) {
     ifstream fin;
     fin.open(name.c_str(), ios::in);
     if (fin.is_open()){
@@ -35,13 +36,11 @@ bool List::loadFile(string name) {
             this->addElement(-1,element);
         }
         fin.close();
-        return true;
     }
-    else return false;
 }
 
-bool List::addElement(int afterValue, int value) {
-    int position = this->findElement(afterValue);
+void List::addElement(int position, int value) {
+    //int position = this->findElement(afterValue);
     if (position == -1) position = 0;
     ElemList * newElemList = new ElemList();
     newElemList->value = value;
@@ -53,7 +52,7 @@ bool List::addElement(int afterValue, int value) {
         newElemList->prev = NULL;
         this->head = newElemList;
     }
-    else if (position >= this->getSize()){ //koniec tabeli
+    else if (position >= this->getSize()-1){ //koniec tabeli
         ElemList * p = this->head;
         while (p->next != NULL){
             p = p->next;
@@ -74,8 +73,7 @@ bool List::addElement(int afterValue, int value) {
         p->next = newElemList;
         newElemList->prev = p;
     }
-
-    return true;
+    size++;
 }
 
 ostream &operator<<(ostream &os, const List &a) {
@@ -88,25 +86,25 @@ ostream &operator<<(ostream &os, const List &a) {
 }
 
 int List::getSize() const{
-    int size = 0;
+    /*int size = 0;
     ElemList * p = this->head;
     while (p != NULL){
         size++;
         p = p->next;
-    }
-    return size;
+    }*/
+    return this->size;
 }
 
-bool List::deleteElement(int value) {
-    int position = this->findElement(value);
-    if (position == -1) return false;
-    if (position == 0){ //poczatek tabeli
+void List::deleteElement(int position) {
+    //int position = this->findElement(value);
+    if (position == -1) return;
+    else if (position == 0){ //poczatek tabeli
         ElemList * p = this->head;
         this->head->next->prev = NULL;
         this->head = this->head->next;
         delete p;
     }
-    else if (position == this->getSize()){ //koniec tabeli
+    else if (position == this->getSize()-1){ //koniec tabeli
         ElemList * p = this->head;
         while (p->next != NULL){
             p = p->next;
@@ -125,7 +123,7 @@ bool List::deleteElement(int value) {
         p->prev->next = p->next;
         delete p;
     }
-    return true;
+    size--;
 }
 
 int List::findElement(int value) {
@@ -193,4 +191,12 @@ void List::menu() {
 
 void List::print(std::ostream &str) const {
     str << *this;
+}
+
+int List::getElement(int position) {
+    ElemList * p = this->head;
+    for (int i = 0; i < position && p != NULL; i++){
+        p = p->next;
+    }
+    return p->value;
 }
