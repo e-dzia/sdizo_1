@@ -15,7 +15,10 @@ Array::Array() {
 
 Array::~Array() {
     //cout << "Usuwam tablice " << this->size << " " << this->array << endl;
+    this->size = 0;
     delete [] array;
+    //cout << this->array << " " << this->size << endl;
+
 }
 
 int Array::getSize()const {
@@ -57,34 +60,38 @@ void Array::addElement(int value, int position) {
 }
 
 void Array::deleteElement(int position) {
+    if (position > this->getSize()-1) return;
+   // cout << "Usuwam element z tablicy " << &this->array << " ";
     int * newArray = new int [this->getSize() -1]; //tworzy nowa tabele mniejsza o 1 od obecnej
     this->size--;
-    if (position > this->getSize()) return;
-    else if (position == 0){ //poczatek tabeli
-        /*for (int i = 1; i <= this->getSize(); i++){
-            newArray[i-1] = this->array[i]; //do pozostalych miejsc wpisuje pozostałe wartosi (oprocz indeksu 0) po kolei
-        }*/
-        memcpy(newArray,this->array+1,this->getSize()*sizeof(int));
-    }
-    else if (position == this->getSize()){ //koniec tabeli
-        /*for (int i = 0; i <= this->getSize()-1; i++){
-            newArray[i] = this->array[i]; //przepisuje elementy tablicy do nowej, bez ostatniego
-        }*/
-        memcpy(newArray,this->array,this->getSize()*sizeof(int));
-    }
-    else {//inne miejsce tabeli
-        /*int i = 0;
-        for (; i < position; i++){
-            newArray[i] = this->array[i]; //do miejsca (position) przepisuje elementy
+    //if (position > this->getSize()) return;
+        if (position == 0){ //poczatek tabeli
+            /*for (int i = 1; i <= this->getSize(); i++){
+                newArray[i-1] = this->array[i]; //do pozostalych miejsc wpisuje pozostałe wartosi (oprocz indeksu 0) po kolei
+            }*/
+            memcpy(newArray,this->array+1,this->getSize()*sizeof(int));
         }
-        for (; i < this->getSize(); i++){
-            newArray[i] = this->array[i+1]; //do reszty tablicy wpisuje dalsze elementy starej tablicy oprócz tego usuniętego
-        }*/
-        memcpy(newArray,this->array,(position)*sizeof(int));
-        memcpy(newArray + position,this->array + position + 1,(this->getSize()-position)*sizeof(int));
-    }
+        else if (position == this->getSize()){ //koniec tabeli
+            /*for (int i = 0; i <= this->getSize()-1; i++){
+                newArray[i] = this->array[i]; //przepisuje elementy tablicy do nowej, bez ostatniego
+            }*/
+            memcpy(newArray,this->array,this->getSize()*sizeof(int));
+        }
+        else {//inne miejsce tabeli
+            /* int i = 0;
+             for (; i < position; i++){
+                 newArray[i] = this->array[i]; //do miejsca (position) przepisuje elementy
+             }
+             for (; i < this->getSize(); i++){
+                 newArray[i] = this->array[i+1]; //do reszty tablicy wpisuje dalsze elementy starej tablicy oprócz tego usuniętego
+             }*/
+            memcpy(newArray,this->array,(position)*sizeof(int));
+            memcpy(newArray + position,this->array + position + 1,(this->getSize()-position)*sizeof(int));
+        }
+
     delete [] this->array; //usuwa stara tablice
     array = newArray; //do starej przypisuje nowa
+    //cout << &this->array << endl;
 }
 
 int Array::findElement(int value) {

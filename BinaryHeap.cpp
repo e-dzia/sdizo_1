@@ -15,6 +15,7 @@ BinaryHeap::BinaryHeap() {
 BinaryHeap::~BinaryHeap() {
     //cout << "Usuwam BH " << &this->array << endl;
     //array.~Array();
+    //delete array;
 }
 
 int BinaryHeap::getSize() const{
@@ -39,7 +40,7 @@ void BinaryHeap::deleteElement(int value) {
     int tmp = array[position]; //wartosc elementu
     array[position] = array[array.getSize()-1];
     array[array.getSize()-1] = tmp;
-    array.deleteElement(array.getSize());
+    array.deleteElement(array.getSize()-1);
     for(int i = this->getSize()-1; i >= 0; i--)
         this->fixBinaryHeap(i);
 }

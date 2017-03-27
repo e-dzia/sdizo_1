@@ -14,7 +14,6 @@ struct RBTNode
     RBTNode * up;
     RBTNode * left;
     RBTNode * right;
-    //int key;
     char color; //B - czarny, R - czerwony
     int value;
 };

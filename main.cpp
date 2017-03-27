@@ -35,18 +35,19 @@ int main() {
     int add = 1000;
     int search = 1000;
     int del = 1000;
-    int n = 5000;
+    int n = 1000;
 
     //mainMenu();
 
     createFile(n);
-    ds = new BinaryHeap;
-    ds->loadFile("numbers.txt");
+   // ds = new BinaryHeap;
+    //ds->loadFile("numbers.txt");
+
 
     for (int i = 0; i < 100; i++){
         cout << i << endl;
         createFile(n);
-        ds = new BinaryHeap;
+        ds = new RedBlackTree;
         ds->loadFile("numbers.txt");
 
         //cout << "Dzialam\n";
