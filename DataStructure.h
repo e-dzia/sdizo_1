@@ -11,12 +11,16 @@ using namespace std;
 
 class DataStructure{
 public:
+    virtual ~DataStructure(){};
+
     virtual int getSize() const = 0;
 
-    virtual bool loadFile(string name) = 0;
-    virtual bool addElement(int value, int position) = 0;
-    virtual bool deleteElement(int position) = 0;
+    virtual void loadFile(string name) = 0;
+    virtual void addElement(int value, int position) = 0;
+    virtual void deleteElement(int position) = 0;
     virtual int findElement(int value) = 0;
+
+    virtual int getElement(int position) = 0;
 
     virtual void menu()= 0;
 
