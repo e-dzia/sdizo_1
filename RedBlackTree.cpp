@@ -12,15 +12,17 @@ RedBlackTree::RedBlackTree() {
     g->left = g;
     g->right = g;
     g->color = 'B';
+    g->value = -1;
     this->guard = g;
     this->root = this->guard;
     //cout << "Nowe RBT " << this->root << endl;
 }
 
 RedBlackTree::~RedBlackTree() {
-    cout << "###############################################################################Usuwam RBT " << this->root << endl;
-    delete this->guard;
+   // cout << "###############################################################################Usuwam RBT " << this->root << endl;
+
     deleteTree(this->root);
+    delete this->guard;
     //delete this->root;
 
 }
@@ -74,7 +76,9 @@ void RedBlackTree::addElement(int value, int notUsed) {
         return;
     }
     else while (true){
-        if (rbt->value < p->value){
+        if (rbt->value == p->value)
+            return;
+        else if (rbt->value < p->value){
             if (p->left == this->guard){
                 p->left = rbt;
                 rbt->up = p;
@@ -92,14 +96,20 @@ void RedBlackTree::addElement(int value, int notUsed) {
         }
     }
     this->fixRBT_A(rbt);
-    cout << "Korzen po dodaniu: " << this->root->value << endl;
+    if (p == p->right) cout << "Blad dodawania###################################################\n";
+    //cout << "Korzen po dodaniu: " << this->root->value << endl;
 
 }
 
 void RedBlackTree::deleteElement(int value) {
-    RBTNode * p = this->findEl(value);
+    RBTNode * p = this->findEl(value); //wezel do usuniecia
+    cout << p->value << " ";
+    RBTNode * toChange = p; // wezel pomocniczy
+    char pColor = p->color;
+    RBTNode * b;
     if (p != this->guard){
-        RBTNode * toChange;
+        //cout << " Mam " ;
+        RBTNode * toChange; // wezel pomocniczy
         if (p->left == this->guard && p->right == this->guard){
             toChange = this->guard;
         }
@@ -113,6 +123,7 @@ void RedBlackTree::deleteElement(int value) {
             else if (p->right != this->guard && p->left != this->guard){
                 RBTNode * tmp = p;
                 tmp = this->nextValue(tmp);
+                b = tmp->right;
 
                 tmp->up->left = tmp->right; //rodzic tmp
                 if (tmp->right != this->guard)
@@ -125,14 +136,73 @@ void RedBlackTree::deleteElement(int value) {
             }
 
         }
-        if (p->up->left == p) //p -y
+        if (p->up == this->guard)
+            this->root = toChange;
+        else if (p->up->left == p) //p -y
             p->up->left = toChange;
-        else p->up->right = toChange;
-        if (toChange != this->guard){
+        else if (p->up->right == p)
+            p->up->right = toChange;
+        if (toChange != this->guard && toChange != NULL){
             toChange->up = p->up; //Z->up = Y->up
         }
 
-        //cout << "Usunieto " << p->value << endl;
+        if (b != NULL && b != this->guard && b->up->right->color == 'R'){
+            RBTNode * w;
+            while (b != this->root && b->color == 'B') {
+                if (b == b->up->left) {
+                    w = b->up->right;
+                    if (w->color == 'R') {
+                        w->color = 'B';
+                        b->up->color = 'R';
+                        this->rot_L(b->up);
+                        w = b->up->right;
+                    }
+                    if (w->left->color == 'B' && w->right->color == 'B') {
+                        w->color = 'R';
+                        b = b->up;
+                    } else {
+                        if (w->right->color == 'B') {
+                            w->left->color = 'B';
+                            w->color = 'R';
+                            this->rot_R(w);
+                            w = b->up->right;
+                        }
+                        w->color = b->up->color;
+                        b->up->color = 'B';
+                        w->right->color = 'B';
+                        this->rot_L(b->up);
+                        b = this->root;
+                    }
+                } else {
+                    w = b->up->left;
+                    if (w->color == 'R') {
+                        w->color = 'B';
+                        b->up->color = 'R';
+                        this->rot_L(b->up);
+                        w = b->up->left;
+                    }
+                    if (w->right->color == 'B' && w->left->color == 'B') {
+                        w->color = 'R';
+                        b = b->up;
+                    } else {
+                        if (w->left->color == 'B') {
+                            w->right->color = 'B';
+                            w->color = 'R';
+                            this->rot_R(w);
+                            w = b->up->left;
+                        }
+                        w->color = b->up->color;
+                        b->up->color = 'B';
+                        w->left->color = 'B';
+                        this->rot_L(b->up);
+                        b = this->root;
+                    }
+                }
+            }
+            b->color = 'B';
+        }
+
+       // cout << "Usunieto " << p->value << endl;
 
         if (p == this->root){
             toChange->up = this->root->up;
@@ -143,36 +213,46 @@ void RedBlackTree::deleteElement(int value) {
 
         //this->fixRBT_D(p);
 
+        //cout << "Usunieto " << p->value << endl;
 
         if (p != this->guard)
             delete p;
         //return true;
-        cout << "Korzen po usunieciuu: " << this->root->value << endl;
-        cout << "Dzieci: " << this->root->right->value << " " << this->root->left->value << endl;
-    }
 
-    //return false;
+        //cout << "Korzen po usunieciu: " << this->root->value << endl;
+        //cout << "Dzieci: " << this->root->right->value << " " << this->root->left->value << endl;
+    }
 }
 
 RBTNode * RedBlackTree::nextValue(RBTNode * p){
-    p = p->right;
-    while (p->left != this->guard){
-        p = p->left;
+    if (p->right != this->guard){
+        p = p->right;
+        while (p->left != this->guard){
+            p = p->left;
+        }
+        return p;
     }
-    return p;
+    return this->guard;
 }
 
 RBTNode* RedBlackTree::findEl(int value){
     RBTNode * p = this->root;
-    while (p != this->guard){
+   // cout << "Szukam";
+    while (p != this->guard && p != NULL && p->value != p->right->value){
         if (value == p->value){
+            //cout << "Znalazlem";
             return p;
         }
         else if (value > p->value){
+            //cout << "prawo";
             p = p->right;
         }
-        else p = p->left;
+        else {
+            //cout << "lewo";
+            p = p->left;
+        }
     }
+    //cout << "Nie";
     return this->guard;
 }
 
@@ -228,75 +308,6 @@ void RedBlackTree::fixRBT_A(RBTNode * pNode) {
     root->color = 'B';
 
 
-}
-
-void RedBlackTree::fixRBT_D(RBTNode *pNode) {
-    RBTNode * toChange, *p;
-    if(pNode->left != this->guard) toChange = pNode->left;
-    else              toChange = pNode->right;
-    if(pNode->color == 'B')   // Naprawa struktury drzewa czerwono-czarnego
-        while((toChange != root) && (toChange->color == 'B')) {
-            if(toChange == toChange->up->left) {
-                p = toChange->up->right;
-
-                if(p->color == 'R') {
-                    p->color = 'B';
-                    toChange->up->color = 'R';
-                    rot_L(toChange->up);
-                    p = toChange->up->right;
-                }
-
-                if((p->left->color == 'B') && (p->right->color == 'B')){// Przypadek 2
-                    p->color = 'R';
-                    toChange = toChange->up;
-                    continue;
-                }
-
-                if(p->right->color == 'B'){// Przypadek 3
-                    p->left->color = 'B';
-                    p->color = 'R';
-                    rot_R(p);
-                    p = toChange->up->right;
-                }
-
-                p->color = toChange->up->color; // Przypadek 4
-                toChange->up->color = 'B';
-                p->right->color = 'B';
-                rot_L(toChange->up);
-                toChange = root;         // To spowoduje zakończenie pętli
-            }
-            else {// Przypadki lustrzane
-                p = toChange->up->left;
-
-                if(p->color == 'R') { // Przypadek 1
-                    p->color = 'B';
-                    toChange->up->color = 'R';
-                    rot_R(toChange->up);
-                    p = toChange->up->left;
-                }
-
-                if((p->left->color == 'B') && (p->right->color == 'B')) { // Przypadek 2
-                    p->color = 'R';
-                    toChange = toChange->up;
-                    continue;
-                }
-
-                if(p->left->color == 'B'){ // Przypadek 3
-                    p->right->color = 'B';
-                    p->color = 'R';
-                    rot_L(p);
-                    p = toChange->up->left;
-                }
-
-                p->color = toChange->up->color;  // Przypadek 4
-                toChange->up->color = 'B';
-                p->left->color = 'B';
-                rot_R(toChange->up);
-                toChange = root;         // To spowoduje zakończenie pętli
-            }
-        }
-
-    toChange->color = 'B';
 }
 
 void RedBlackTree::rot_R(RBTNode *pNode) {
@@ -363,7 +374,7 @@ void RedBlackTree::printRBT(string sp, string sn, RBTNode *v, ostream &os)const 
         printRBT(s + cp, cr, v->right, os);
 
         s = s.substr(0,sp.length()-2);
-        os << s << sn << v->value << "(" << v->color << ")" << endl;
+        os << s << sn << v->value/* << "(" << v->color << ")" */<< endl;
 
         s = sp;
         if(sn == cl) s[s.length() - 2] = ' ';
