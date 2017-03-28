@@ -39,8 +39,8 @@ void List::loadFile(string name) {
     }
 }
 
-void List::addElement(int position, int value) {
-    //int position = this->findElement(afterValue);
+void List::addElement(int afterValue, int value) {
+    int position = this->findElement(afterValue);
     if (position == -1) position = 0;
     ElemList * newElemList = new ElemList();
     newElemList->value = value;
@@ -95,8 +95,8 @@ int List::getSize() const{
     return this->size;
 }
 
-void List::deleteElement(int position) {
-    //int position = this->findElement(value);
+void List::deleteElement(int value) {
+    int position = this->findElement(value);
     if (position == -1) return;
     else if (position == 0){ //poczatek tabeli
         ElemList * p = this->head;
@@ -119,9 +119,11 @@ void List::deleteElement(int position) {
             p = p->next;
             i++;
         }
-        p->next->prev = p->prev;
-        p->prev->next = p->next;
-        delete p;
+        if (p != NULL){
+            p->next->prev = p->prev;
+            p->prev->next = p->next;
+            delete p;
+        }
     }
     size--;
 }
