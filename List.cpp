@@ -7,11 +7,9 @@
 List::List() {
     this->head = NULL;
     size = 0;
-    //cout << "Nowa lista " << this->head << endl;
 }
 
 List::~List() {
-    //cout << "Usuwam liste " << this->head << endl;
     ElemList * p = this->head;
     ElemList * next;
     while (p != NULL){
@@ -86,12 +84,6 @@ ostream &operator<<(ostream &os, const List &a) {
 }
 
 int List::getSize() const{
-    /*int size = 0;
-    ElemList * p = this->head;
-    while (p != NULL){
-        size++;
-        p = p->next;
-    }*/
     return this->size;
 }
 

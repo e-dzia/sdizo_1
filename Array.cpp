@@ -10,15 +10,11 @@
 Array::Array() {
     this->size = 0;
     this->array = new int[this->size];
-    //cout << "Nowa tablica " << this->array << endl;
 }
 
 Array::~Array() {
-    //cout << "Usuwam tablice " << this->size << " " << this->array << endl;
     this->size = 0;
     delete [] array;
-    //cout << this->array << " " << this->size << endl;
-
 }
 
 int Array::getSize()const {
@@ -56,15 +52,12 @@ void Array::addElement(int value, int position) {
     this->size++; //zwieksza (size)
     delete [] this->array; //usuwa stara tablice
     this->array = newArray; //do starej przypisuje nowa
-    //return true;
 }
 
 void Array::deleteElement(int position) {
     if (position > this->getSize()-1) return;
-   // cout << "Usuwam element z tablicy " << &this->array << " ";
     int * newArray = new int [this->getSize() -1]; //tworzy nowa tabele mniejsza o 1 od obecnej
     this->size--;
-    //if (position > this->getSize()) return;
         if (position == 0){ //poczatek tabeli
             /*for (int i = 1; i <= this->getSize(); i++){
                 newArray[i-1] = this->array[i]; //do pozostalych miejsc wpisuje pozostałe wartosi (oprocz indeksu 0) po kolei
@@ -91,7 +84,6 @@ void Array::deleteElement(int position) {
 
     delete [] this->array; //usuwa stara tablice
     array = newArray; //do starej przypisuje nowa
-    //cout << &this->array << endl;
 }
 
 int Array::findElement(int value) {
@@ -120,9 +112,7 @@ void Array::loadFile(string name) {
             this->addElement(element,this->getSize());
         }
         fin.close();
-        //return true;
     }
-    //else return false;
 }
 
 int& Array::operator[](int n) {
@@ -185,13 +175,6 @@ void Array::menu() {
             break;
     }
     this->menu();
-}
-
-bool Array::deleteAll() {
-    for (int i = 0; i < this->getSize(); ){
-        this->deleteElement(i);
-    }
-    return false;
 }
 
 int Array::getElement(int position) {

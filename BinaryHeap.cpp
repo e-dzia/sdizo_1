@@ -8,14 +8,9 @@
 
 
 BinaryHeap::BinaryHeap() {
-    //Array array;
-    //cout << "Nowe BH " << &this->array << endl;
 }
 
 BinaryHeap::~BinaryHeap() {
-    //cout << "Usuwam BH " << &this->array << endl;
-    //array.~Array();
-    //delete array;
 }
 
 int BinaryHeap::getSize() const{
@@ -70,23 +65,9 @@ void BinaryHeap::fixBinaryHeap(int i) {
     }
 }
 
-void BinaryHeap::fixBinaryHeapUp(int i) {
-    int n = this->getSize()-1;
-    int v = array[n];
-    //int i = n; //pozycja wstawianego elementu
-    int j = (i-1)/2; //indeks rodzica
-    while (i > 0 && array[j] < v){
-        array[i] = array[j];
-        i = j;
-        j = (i-1)/2;
-    }
-    array[i] = v;
-}
-
 void BinaryHeap::fixBinaryHeapDown(int i) {
     int n = this->getSize();
     int v = array[n]; //ostatni element
-    //int i = 0;
     int j = 2*i+1;
     while(j < n){
         if (j+1 < n && array[j+1] > array[j]){

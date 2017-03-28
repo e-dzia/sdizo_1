@@ -18,7 +18,6 @@ public:
     ~BinaryHeap();
 
     void fixBinaryHeap(int i);
-    void fixBinaryHeapUp(int i);
     void fixBinaryHeapDown(int i);
 
     void createBH();
